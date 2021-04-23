@@ -105,7 +105,7 @@ begin
     Base64Result := Base64Encoded(Base64Result);
     Result := Base64Result;
   finally
-   vJson.Free;
+   FreeAndNil(vJson);
   end;
 end;
 
@@ -135,7 +135,7 @@ begin
   fJson := TJSONObject.ParseJSONValue(PEMByte.Text);
   Result := TNetEncoding.Base64.EncodeBytesToString(RSASign.Sign(TEncoding.UTF8.GetBytes(Trim(Data)), TEncoding.UTF8.GetBytes(fJson.GetValue<string>('private_key')), RS256));
  finally
-   fJson.Free;
+   FreeAndNil(fJson);
    PEMByte.Free;
    RSASign.Free;
  end;

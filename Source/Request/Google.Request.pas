@@ -22,7 +22,8 @@ uses
  System.Net.HttpClientComponent,
  System.NetEncoding,
  System.JSON,
- Vcl.StdCtrls;
+ Vcl.StdCtrls,
+ ClipBrd;
 
 type
  TGoogleRequest = class
@@ -63,9 +64,11 @@ begin
   inherited Destroy;
 end;
 
+
+
 function TGoogleRequest.getSpeechToText(WAVBase64, Token, encoding, rate, language: String): String;
 var
- mJson, dJson, aJson: TJSONObject;
+ dJson, aJson, mJson: TJSONObject;
  cJson: TJSONValue;
  JSON, rJSON: String;
  RequestStream: TStringStream;
@@ -73,7 +76,6 @@ begin
  dJson := TJSONObject.Create;
  aJson := TJSONObject.Create;
  mJson := TJSONObject.Create;
- cJson := TJSONObject.Create;
  try
    dJson.AddPair('encoding', encoding);
    dJson.AddPair('sampleRateHertz', rate);
@@ -83,6 +85,7 @@ begin
    aJson.AddPair('content', WAVBase64);
    mJson.AddPair('audio', aJson);
    JSON := mJson.Format;
+   Clipboard.AsText := JSON;
    RequestComp.CustomHeaders['Authorization'] := 'Bearer ' + Token;
    RequestComp.CustomHeaders['Content-Type'] := 'application/json';
    RequestStream := TStringStream.Create(JSON);
@@ -90,15 +93,15 @@ begin
    cJson := TJSONObject.ParseJSONValue(rJSON);
 
    try
+
     Result := cJson.GetValue<string>('results[0].alternatives[0].transcript');
    except
     Result := 'empty/error';
    end;
-
  finally
-   mJson.Free;
-   cJson.Free;
-   RequestStream.Free;
+   FreeAndNil(mJson);
+   CJSON.Free;
+   FreeAndNil(RequestStream);
  end;
 end;
 
@@ -107,6 +110,7 @@ var
  Sonuc: String;
  RequestBody, InfoText: TStringList;
  gJson, rJson: TJSONValue;
+ VarMi: Boolean;
 begin
   with GoogleJWT do
   begin
@@ -133,12 +137,12 @@ begin
         Result := 'error';
       end;
      finally
-      gJson.Free;
+      FreeAndNil(gJson);
      end;
     finally
       RequestBody.Free;
       InfoText.Free;
-      rJson.Free;
+      FreeAndNil(rJson);
     end;
   end;
 end;
