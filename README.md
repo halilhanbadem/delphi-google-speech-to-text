@@ -40,6 +40,7 @@ After this, install the dpk file with Delphi. Then create a project.
  * For the VoiceFile property value, define the path to the sound file. Remember; The file should have wav extension and 16000hz.
  * If the audio file is not suitable, it will give you an error.
  * The SpeechLanguage value is for the language. Indicates which language the sound belongs to.
+ * Very long files can be stuck at Google limits when converting to base64 format. For this, with the CloudStorage structure that I will consider in the future, I can first send the voices to the cloud and then convert them by giving uri.
 
 Sample code:
 
