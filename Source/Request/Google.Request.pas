@@ -22,8 +22,7 @@ uses
  System.Net.HttpClientComponent,
  System.NetEncoding,
  System.JSON,
- Vcl.StdCtrls,
- ClipBrd;
+ Vcl.StdCtrls;
 
 type
  TGoogleRequest = class
@@ -85,7 +84,6 @@ begin
    aJson.AddPair('content', WAVBase64);
    mJson.AddPair('audio', aJson);
    JSON := mJson.Format;
-   Clipboard.AsText := JSON;
    RequestComp.CustomHeaders['Authorization'] := 'Bearer ' + Token;
    RequestComp.CustomHeaders['Content-Type'] := 'application/json';
    RequestStream := TStringStream.Create(JSON);
@@ -93,7 +91,6 @@ begin
    cJson := TJSONObject.ParseJSONValue(rJSON);
 
    try
-
     Result := cJson.GetValue<string>('results[0].alternatives[0].transcript');
    except
     Result := 'empty/error';
