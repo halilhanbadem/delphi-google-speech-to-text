@@ -57,6 +57,8 @@ That's it! The return will come back to you in writing.
  * Please make sure that the sound recording is 16000hz and its original wav extension. You can use FFMpeg.
  * Excessive or incorrect use may have occurred in the codes. I will fix these issues over time.. Since I am making open source codes as a hobby; I can be interested in my work whenever I find time.
  * Please create an issue for your problems.
+ * It only supports VCL.
+ * Developed and tested with Delphi 10.4.2.
 
 ## Resources & Thanks
 Due to the unique projects it has presented to everyone;<br>
